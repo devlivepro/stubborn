@@ -2,40 +2,56 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
 
-    #[ORM\Column]
-    private array $roles = [];
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private $email;
 
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $password;
 
-    // Champ pour savoir si l'email est confirmé
-    #[ORM\Column(type: 'boolean')]
-    private bool $isVerified = false;
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
 
-    // Stocker le token de confirmation d'email
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $confirmationToken = null;
+    private $deliveryAddress;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Cart::class, orphanRemoval: true)]
+    private $carts;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -43,30 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
         return $this;
     }
 
@@ -75,39 +70,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
-    public function isVerified(): bool
+    public function getRoles(): array
     {
-        return $this->isVerified;
+        return array_unique($this->roles);
     }
 
-    public function setIsVerified(bool $isVerified): static
+    public function setRoles(array $roles): self
     {
-        $this->isVerified = $isVerified;
-
+        $this->roles = $roles;
         return $this;
     }
 
-    public function getConfirmationToken(): ?string
+    public function getDeliveryAddress(): ?string
     {
-        return $this->confirmationToken;
+        return $this->deliveryAddress;
     }
 
-    public function setConfirmationToken(?string $confirmationToken): static
+    public function setDeliveryAddress(?string $deliveryAddress): self
     {
-        $this->confirmationToken = $confirmationToken;
-
+        $this->deliveryAddress = $deliveryAddress;
         return $this;
     }
 
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    /**
+     * Représente un identifiant unique pour l'utilisateur
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->email; // En général, l'email est utilisé comme identifiant unique
+    }
+
+    /**
+     * Cette méthode est nécessaire pour effacer des données sensibles
+     */
     public function eraseCredentials(): void
     {
-        // Si vous stockez des données sensibles temporaires, vous pouvez les effacer ici
+        // Si vous avez des informations sensibles à effacer après authentification, gérez-les ici.
     }
 }
