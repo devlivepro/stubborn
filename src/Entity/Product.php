@@ -2,28 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Entity(repositoryClass: "App\Repository\ProductRepository")]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
 
-    #[ORM\Column(length: 255)]
-    private ?string $size = null;
+    #[ORM\Column(type: 'decimal', scale: 2)]
+    private $price;
 
-    #[ORM\Column]
-    private ?float $price = null;
+    #[ORM\Column(type: 'json')]
+    private $stock;
 
-    #[ORM\Column]
-    private ?int $stock = null;
+    #[ORM\Column(type: 'boolean', options: ["default" => false])]
+    private $highlighted = false;
 
     public function getId(): ?int
     {
@@ -35,22 +34,9 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSize(): ?string
-    {
-        return $this->size;
-    }
-
-    public function setSize(string $size): static
-    {
-        $this->size = $size;
-
         return $this;
     }
 
@@ -59,22 +45,31 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
-    public function getStock(): ?int
+    public function getStock(): array
     {
         return $this->stock;
     }
 
-    public function setStock(int $stock): static
+    public function setStock(array $stock): self
     {
         $this->stock = $stock;
+        return $this;
+    }
 
+    public function isHighlighted(): ?bool
+    {
+        return $this->highlighted;
+    }
+
+    public function setHighlighted(bool $highlighted): self
+    {
+        $this->highlighted = $highlighted;
         return $this;
     }
 }
