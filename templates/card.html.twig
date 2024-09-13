@@ -1,0 +1,6 @@
+{# templates/includes/card.html.twig #}
+<div class="card">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.price }} €</p>
+    <a href="{{ path('app_product', { id: product.id }) }}">Voir</a>
+</div>
