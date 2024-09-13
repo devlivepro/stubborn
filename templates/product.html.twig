@@ -1,0 +1,22 @@
+{# templates/product.html.twig #}
+{% extends 'includes/base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>{{ product.price }} €</p>
+
+    <form action="{{ path('app_cart_add', { id: product.id }) }}" method="post">
+        <label for="size">Taille :</label>
+        <select name="size" id="size">
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+        <button type="submit">Ajouter au panier</button>
+    </form>
+{% endblock %}
