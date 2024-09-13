@@ -1,0 +1,31 @@
+{# templates/cart.html.twig #}
+{% extends 'includes/base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <h1>Mon panier</h1>
+
+    <table>
+        <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Action</th>
+        </tr>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price * item.quantity }} €</td>
+                <td>
+                    <a href="{{ path('app_cart_remove', { id: item.product.id }) }}">Retirer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>Total : {{ total }} €</p>
+
+    <a href="{{ path('app_products') }}">Continuer mes achats</a>
+{% endblock %}
