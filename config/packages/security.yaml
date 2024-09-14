@@ -1,6 +1,4 @@
-# config/packages/security.yaml
 security:
-
     password_hashers:
         App\Entity\User:
             algorithm: auto
@@ -23,11 +21,10 @@ security:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: app_home
+                enable_csrf: true
+                csrf_token_id: authenticate
+                csrf_parameter: _csrf_token
             logout:
-                path: app_logout     # Route de déconnexion
-                target: app_home     # Redirection après la déconnexion
-    access_control:
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/products$, roles: IS_AUTHENTICATED_ANONYMOUSLY }   # Page produits accessible à tous
-        - { path: ^/home$, roles: IS_AUTHENTICATED_ANONYMOUSLY }       # Page d'accueil accessible à tous
-        - { path: ^/, roles: ROLE_USER }                               # Le reste du site nécessite une connexion
+                path: app_logout
+                target: app_home
+            security: true
