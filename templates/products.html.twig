@@ -1,0 +1,20 @@
+{# templates/products.html.twig #}
+{% extends 'includes/base.html.twig' %}
+
+{% block title %}Nos Produits{% endblock %}
+
+{% block body %}
+    <h1>Nos Produits</h1>
+
+    <form method="get" action="{{ path('app_products') }}">
+        <label for="minPrice">Prix min :</label>
+        <input type="number" name="minPrice" id="minPrice" value="{{ app.request.query.get('minPrice', 0) }}">
+        
+        <label for="maxPrice">Prix max :</label>
+        <input type="number" name="maxPrice" id="maxPrice" value="{{ app.request.query.get('maxPrice', 1000) }}">
+        
+        <button type="submit">Filtrer</button>
+    </form>
+
+    {% include 'includes/products_list.html.twig' with { 'products': products } %}
+{% endblock %}
