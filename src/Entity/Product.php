@@ -24,6 +24,10 @@ class Product
     #[ORM\Column(type: 'boolean', options: ["default" => false])]
     private $highlighted = false;
 
+    // Nouveau champ pour l'image
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +74,18 @@ class Product
     public function setHighlighted(bool $highlighted): self
     {
         $this->highlighted = $highlighted;
+        return $this;
+    }
+
+    // Getter et setter pour l'image
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
         return $this;
     }
 }
