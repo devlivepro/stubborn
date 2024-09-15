@@ -4,31 +4,47 @@
 
 {% block body %}
     <div class="login-container">
-        <h1>Login</h1>
+        <h2>Se connecter</h2>
 
         {% if error %}
             <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        <form action="{{ path('app_login') }}" method="post">
+        <form action="{{ path('app_login') }}" method="post" class="login-form">
             <div class="form-group">
-                <label for="username">Email:</label>
+                <label for="username">Nom utilisateur :</label>
                 <input type="text" id="username" name="_username" value="{{ last_username }}" required>
             </div>
 
             <div class="form-group">
-                <label for="password">Mot de passe:</label>
+                <label for="password">Mot de passe :</label>
                 <input type="password" id="password" name="_password" required>
             </div>
 
-            <div class="form-group">
-                <label for="remember_me">Se souvenir de moi</label>
+            <div class="form-group remember-me">
                 <input type="checkbox" id="remember_me" name="_remember_me">
+                <label for="remember_me">Se souvenir de moi</label>
             </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <button type="submit" class="btn btn-primary">Se connecter</button>
+            <button type="submit" class="btn btn-primary">Se Connecter</button>
         </form>
+
+        <div class="links-container">
+            <p><a href="#">Mot de passe oublié</a></p>
+            <p>Pas encore inscrit ? <a href="{{ path('app_register') }}" class="btn-link">Créer un compte</a></p>
+            <p><a href="{{ path('app_home') }}">Retour à l'accueil</a></p>
+        </div>
     </div>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {% if error.messageKey == 'Votre compte n\'est pas vérifié. Veuillez vérifier votre e-mail.' %}
+                {{ error.messageKey }}
+            {% else %}
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
