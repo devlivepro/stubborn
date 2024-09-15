@@ -15,3 +15,11 @@ app_products:
 app_cart:
     path: /cart
     controller: App\Controller\CartController::cart
+
+app_verify_email_notice:
+    path: /verify/email/notice
+    controller: App\Controller\RegisterController::emailNotice
+
+verify_email:
+    path: /verify/email
+    controller: App\Controller\RegisterController::verifyUserEmail
