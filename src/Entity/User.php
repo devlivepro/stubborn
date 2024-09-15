@@ -17,11 +17,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
+    private $username;
+
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $deliveryAddress;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false; // Par défaut, l'utilisateur n'est pas vérifié après inscription.
 
     public function getId(): ?int
     {
@@ -39,6 +48,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
@@ -47,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER'; // Ajoutez automatiquement ROLE_USER
+        $roles[] = 'ROLE_USER'; // ROLE_USER est ajouté par défaut.
 
         return array_unique($roles);
     }
@@ -71,6 +91,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Si vous avez stocké des données sensibles, vous pouvez les effacer ici
+        // Si vous stockez des données sensibles temporaires, effacez-les ici
+        // $this->plainPassword = null;
+    }
+
+    public function getDeliveryAddress(): ?string
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(?string $deliveryAddress): self
+    {
+        $this->deliveryAddress = $deliveryAddress;
+        return $this;
+    }
+
+    /**
+     * Vérifie si l'utilisateur a validé son adresse e-mail.
+     */
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    /**
+     * Définit le statut de l'utilisateur comme vérifié après confirmation de l'e-mail.
+     */
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+        return $this;
     }
 }
