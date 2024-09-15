@@ -9,13 +9,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')] // Annotation pour lier la méthode login à l'URL /login
+    #[Route('/login', name: 'app_login')] 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_home'); // Redirection si l'utilisateur est déjà authentifié
+            return $this->redirectToRoute('app_home');
         }
 
+        // Récupère l'erreur de la dernière tentative d'authentification, s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -25,7 +26,7 @@ class LoginController extends AbstractController
         ]);
     }
 
-    #[Route('/logout', name: 'app_logout')] // Annotation pour lier la méthode logout à l'URL /logout
+    #[Route('/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
