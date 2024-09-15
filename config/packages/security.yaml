@@ -13,7 +13,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+        
         main:
             lazy: true
             provider: users_in_database
@@ -28,3 +28,11 @@ security:
                 path: app_logout
                 target: app_home
             security: true
+            
+            # Configuration "remember_me"
+            remember_me:
+                secret: '%kernel.secret%'  # Clé secrète pour signer les cookies
+                lifetime: 3600            # Durée de vie du cookie (1 heure)
+                path: /                     # Chemin pour lequel le cookie est valide
+                remember_me_parameter: _remember_me
+                always_remember_me: false    # Le paramètre remember_me doit être coché
