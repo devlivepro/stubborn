@@ -23,3 +23,7 @@ app_verify_email_notice:
 verify_email:
     path: /verify/email
     controller: App\Controller\RegisterController::verifyUserEmail
+
+app_resend_verification:
+    path: /resend-verification
+    controller: App\Controller\ResendVerificationController::resendVerification
