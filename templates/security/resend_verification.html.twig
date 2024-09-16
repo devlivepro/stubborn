@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Renvoyer l'email de vérification{% endblock %}
+
+{% block body %}
+    <div class="login-container">
+        <h2>Renvoyer l'email de vérification</h2>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('info') %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+
+        <p>Entrez votre adresse e-mail ci-dessous pour recevoir un nouvel e-mail de vérification :</p>
+
+        <form method="post" action="{{ path('app_resend_verification') }}" class="login-form">
+            <div class="form-group">
+                <label for="email">Adresse e-mail :</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Renvoyer l'email de vérification</button>
+        </form>
+
+        <div class="links-container mt-3">
+            <p><a href="{{ path('app_login') }}">Retour à la page de connexion</a></p>
+        </div>
+    </div>
+{% endblock %}
