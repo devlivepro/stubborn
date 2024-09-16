@@ -1,55 +1,54 @@
-{# templates/register/register.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="register-container">
+    <div class="login-container">
         <h2>S'inscrire</h2>
 
-        <div class="separator"></div>
-        
+        <hr class="separator">
+
         {{ form_start(registrationForm) }}
 
         <div class="form-group">
-            {{ form_label(registrationForm.username, 'Nom utilisateur :') }}
+            <label for="username">Nom utilisateur :</label>
             {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(registrationForm.username) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(registrationForm.email, 'Adresse mail :') }}
+            <label for="email">Adresse mail :</label>
             {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(registrationForm.email) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(registrationForm.deliveryAddress, 'Adresse de livraison :') }}
+            <label for="deliveryAddress">Adresse de livraison :</label>
             {{ form_widget(registrationForm.deliveryAddress, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(registrationForm.deliveryAddress) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(registrationForm.plainPassword.first, 'Mot de passe :') }}
+            <label for="plainPassword_first">Mot de passe :</label>
             {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(registrationForm.plainPassword.first) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(registrationForm.plainPassword.second, 'Confirmez le mot de passe :') }}
+            <label for="plainPassword_second">Confirmez le mot de passe :</label>
             {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(registrationForm.plainPassword.second) }}
         </div>
 
         <button type="submit" class="btn btn-primary">Créer un compte</button>
 
-        <div class="separator"></div>
+        <hr class="separator">
 
-        <p>Déjà inscrit ?</p>
-
-        <a href="{{ path('app_login') }}" class="btn-copy" role="button">Se Connecter</a>
+        <div class="register-link">
+            <p>Déjà inscrit ?</p>
+            <a href="{{ path('app_login') }}" class="btn-copy btn-block">Se connecter</a>
+        </div>
 
         {{ form_end(registrationForm) }}
-
     </div>
 {% endblock %}
