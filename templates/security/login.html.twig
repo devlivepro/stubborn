@@ -6,6 +6,8 @@
     <div class="login-container">
         <h2>Se connecter</h2>
 
+        <hr class="separator">
+
         {% if error %}
             <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 
@@ -34,13 +36,17 @@
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <button type="submit" class="btn btn-primary">Se Connecter</button>
-        </form>
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        
 
-        <div class="links-container">
-            <p><a href="#">Mot de passe oublié</a></p>
-            <p>Pas encore inscrit ? <a href="{{ path('app_register') }}" class="btn-link">Créer un compte</a></p>
-            <p><a href="{{ path('app_home') }}">Retour à l'accueil</a></p>
+        <hr class="separator">
+
+        <div class="register-link">
+            <p>Pas encore inscrit ?</p>
+            <a href="{{ path('app_register') }}" class="btn-copy btn-block">Créer un compte</a>
         </div>
+
+        <p class="link-back-home"><a href="{{ path('app_home') }}">Retour à l'accueil</a></p>
+        </form>
     </div>
 {% endblock %}
