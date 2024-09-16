@@ -8,6 +8,12 @@
 
         {% if error %}
             <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+
+            {% if error.messageKey == 'Votre compte n\'est pas vérifié. Veuillez vérifier votre email.' %}
+                <div class="resend-verification">
+                    <p>Pas encore reçu l'email de vérification ? <a href="{{ path('app_resend_verification') }}">Renvoyer l'email de vérification</a></p>
+                </div>
+            {% endif %}
         {% endif %}
 
         <form action="{{ path('app_login') }}" method="post" class="login-form">
@@ -37,14 +43,4 @@
             <p><a href="{{ path('app_home') }}">Retour à l'accueil</a></p>
         </div>
     </div>
-
-    {% if error %}
-        <div class="alert alert-danger">
-            {% if error.messageKey == 'Votre compte n\'est pas vérifié. Veuillez vérifier votre e-mail.' %}
-                {{ error.messageKey }}
-            {% else %}
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-            {% endif %}
-        </div>
-    {% endif %}
 {% endblock %}
