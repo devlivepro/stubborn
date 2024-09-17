@@ -7,18 +7,19 @@
         <h2>Se connecter</h2>
 
         <hr class="separator">
+        <form action="{{ path('app_login') }}" method="post" class="login-form">
 
-        {% if error %}
+            {% if error %}
             <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 
             {% if error.messageKey == 'Votre compte n\'est pas vérifié. Veuillez vérifier votre email.' %}
                 <div class="resend-verification">
-                    <p>Pas encore reçu l'email de vérification ? <a href="{{ path('app_resend_verification') }}">Renvoyer l'email de vérification</a></p>
+                    <p>Pas encore reçu l'email de vérification ? </br><a href="{{ path('app_resend_verification') }}">Renvoyer l'email de vérification</a></p>
                 </div>
             {% endif %}
-        {% endif %}
+            {% endif %}
 
-        <form action="{{ path('app_login') }}" method="post" class="login-form">
+
             <div class="form-group">
                 <label for="username">Nom utilisateur :</label>
                 <input type="text" id="username" name="_username" value="{{ last_username }}" required>

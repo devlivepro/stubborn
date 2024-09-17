@@ -1,22 +1,37 @@
 {# templates/product.html.twig #}
-{% extends 'includes/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.description }}</p>
-    <p>{{ product.price }} €</p>
+    <div class="product-container">
+        <div class="product-img-container">
+            <img src="{{ asset(product.image) }}" alt="{{ product.name }}" class="product-img">
+        </div>
+        
+        <div class="product-details">
+            <h1>{{ product.name }}</h1>
+            <p>Prix : {{ product.price }} €</p>
+            
+            <!-- Afficher la quantité restante -->
+            <p>Quantité restante : {{ product.quantity }}</p>
+            
+            <form method="post" action="{{ path('app_cart_add', {'id': product.id}) }}" class="product-form">
+                <label for="size">Taille</label>
+                <select id="size" name="size" class="product-size-select">
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
 
-    <form action="{{ path('app_cart_add', { id: product.id }) }}" method="post">
-        <label for="size">Taille :</label>
-        <select name="size" id="size">
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-        </select>
-        <button type="submit">Ajouter au panier</button>
-    </form>
+                <button type="submit" class="btn btn-primary btn-add-to-cart">Ajouter au panier</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="back-home">
+        <a href="{{ path('app_products') }}" class="btn btn-secondary">Retour à la liste des produits</a>
+    </div>
 {% endblock %}

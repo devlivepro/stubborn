@@ -1,20 +1,46 @@
-{# templates/products.html.twig #}
-{% extends 'includes/base.html.twig' %}
+{# templates/products/products.html.twig #}
+{% extends 'base.html.twig' %}
 
 {% block title %}Nos Produits{% endblock %}
 
 {% block body %}
-    <h1>Nos Produits</h1>
 
-    <form method="get" action="{{ path('app_products') }}">
-        <label for="minPrice">Prix min :</label>
-        <input type="number" name="minPrice" id="minPrice" value="{{ app.request.query.get('minPrice', 0) }}">
-        
-        <label for="maxPrice">Prix max :</label>
-        <input type="number" name="maxPrice" id="maxPrice" value="{{ app.request.query.get('maxPrice', 1000) }}">
-        
-        <button type="submit">Filtrer</button>
-    </form>
+    <div class="products-layout">
+        <aside class="filter-section">
+            <form method="get" action="{{ path('app_products') }}" class="filter-form">
+                <h2>Fourchette de prix</h2>
+                <div class="filter-group">
+                    <select name="priceRange" id="priceRange" class="filter-input">
+                        <option value="10-29" {% if app.request.query.get('priceRange') == '10-29' %}selected{% endif %}>10 à 29 €</option>
+                        <option value="30-35" {% if app.request.query.get('priceRange') == '30-35' %}selected{% endif %}>30 à 35 €</option>
+                        <option value="35-50" {% if app.request.query.get('priceRange') == '35-50' %}selected{% endif %}>35 à 50 €</option>
+                    </select>
+                </div>
 
-    {% include 'includes/products_list.html.twig' with { 'products': products } %}
+                <button type="submit" class="btn btn-primary filter-btn">Filtrer</button>
+            </form>
+        </aside>
+
+        <section class="products-list">
+            {% for product in products %}
+                <div class="product-item">
+                    <div class="product-info">
+                        <img src="{{ asset(product.image) }}" class="product-img" alt="{{ product.name }}">
+                        <h2>{{ product.name }}</h2>
+
+                    <div class="product-action">
+                        <a href="{{ path('app_product_show', {id: product.id}) }}" class="btn-see-product">Voir</a>
+                    </div>
+
+                        <p>{{ product.price }} €</p>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+
+    <div class="back-home">
+        <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à l'accueil</a>
+    </div>
 {% endblock %}

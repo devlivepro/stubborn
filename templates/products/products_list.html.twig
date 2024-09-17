@@ -1,0 +1,10 @@
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{{ asset(product.image) }}" alt="{{ product.name }}">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.price }} €</p>
+            <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn-see-product">Voir</a>
+        </div>
+    {% endfor %}
+</div>
