@@ -1,31 +1,56 @@
-{# templates/cart.html.twig #}
-{% extends 'includes/base.html.twig' %}
+{# templates/cart/cart.html.twig #}
+{% extends 'base.html.twig' %}
 
-{% block title %}Mon panier{% endblock %}
+{% block title %}Votre Panier{% endblock %}
 
 {% block body %}
-    <h1>Mon panier</h1>
+    <h1>Votre Panier</h1>
 
-    <table>
-        <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Prix</th>
-            <th>Action</th>
-        </tr>
-        {% for item in items %}
-            <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.product.price * item.quantity }} €</td>
-                <td>
-                    <a href="{{ path('app_cart_remove', { id: item.product.id }) }}">Retirer</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% if cart|length > 0 %}
+        {% set total = 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Image du produit</th>
+                    <th>Produit</th>
+                    <th>Taille</th> {# Ajout de la colonne Taille #}
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app_product_show', {id: item.product.id}) }}">
+                                <img src="{{ asset(item.product.image) }}" alt="{{ item.product.name }}" style="max-width: 100px;">
+                            </a>
+                        </td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.size }}</td> {# Affichage de la taille sélectionnée #}
+                        <td>{{ item.product.price }} €</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price * item.quantity }} €</td>
+                        <td>
+                            <a href="{{ path('app_cart_remove', {id: item.product.id}) }}" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                    {% set total = total + (item.product.price * item.quantity) %}
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <p>Total : {{ total }} €</p>
+        <div class="cart-total">
+            <h3>Total du panier : {{ total }} €</h3>
+        </div>
 
-    <a href="{{ path('app_products') }}">Continuer mes achats</a>
+        <div class="cart-actions">
+            <a href="{{ path('app_products') }}" class="btn btn-primary">Continuer mes achats</a>
+            <a href="{{ path('app_stripe_checkout') }}" class="btn btn-success">Payer avec Stripe</a>
+        </div>
+    {% else %}
+        <p>Votre panier est vide.</p>
+    {% endif %}
 {% endblock %}

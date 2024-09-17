@@ -7,18 +7,21 @@
     <section class="highlighted-products">
         <h1>Les favoris de nos clients</h1>
 
-        <div class="product-grid">
+        <div class="product-grid-high">
             {% for product in highlightedProducts %}
-                <div class="product-card">
+                <div class="product-card-high">
                     <img src="{{ asset(product.image) }}" alt="{{ product.name }}">
                     <h2>{{ product.name }}</h2>
                     <p>{{ product.price }} €</p>
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn-see-product">Voir</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
     </section>
 
-    <!-- Nouvelle section de présentation de la société -->
     <section class="company-presentation">
         <h2>À propos de Stubborn</h2>
         <p>Bienvenue chez Stubborn, votre destination de choix pour des produits de qualité. Nous nous engageons à fournir des articles innovants et à offrir une expérience d'achat unique à tous nos clients. Que vous recherchiez les dernières tendances ou des produits du quotidien, Stubborn est là pour répondre à vos besoins.</p>

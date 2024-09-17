@@ -28,6 +28,10 @@ class Product
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
 
+    // Nouveau champ pour la quantité
+    #[ORM\Column(type: 'integer')]
+    private $quantity;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +90,18 @@ class Product
     public function setImage(?string $image): self
     {
         $this->image = $image;
+        return $this;
+    }
+
+    // Getter et setter pour la quantité
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
         return $this;
     }
 }
