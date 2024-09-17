@@ -37,3 +37,8 @@ security:
                 path: /                     # Chemin pour lequel le cookie est valide
                 remember_me_parameter: _remember_me
                 always_remember_me: false    # Le paramètre remember_me doit être coché
+    
+    access_control:
+        # Empêcher l'accès aux routes des produits si non connecté
+        - { path: ^/products, roles: ROLE_USER }
+        - { path: ^/product, roles: ROLE_USER }
