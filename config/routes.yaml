@@ -4,18 +4,42 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+# Route pour la page d'accueil
 app_home:
     path: /
     controller: App\Controller\HomeController::index
 
+# Route pour afficher les produits
 app_products:
     path: /products
-    controller: App\Controller\ProductsController::products
+    controller: App\Controller\ProductsController::index
 
+# Route pour afficher le panier
 app_cart:
     path: /cart
-    controller: App\Controller\CartController::cart
+    controller: App\Controller\CartController::showCart
 
+# Route pour ajouter un produit au panier
+app_cart_add:
+    path: /cart/add/{id}
+    controller: App\Controller\CartController::addToCart
+
+# Route pour supprimer un produit du panier
+app_cart_remove:
+    path: /cart/remove/{id}
+    controller: App\Controller\CartController::removeFromCart
+
+# Route pour la session de paiement Stripe
+app_stripe_checkout:
+    path: /checkout
+    controller: App\Controller\CartController::checkout
+
+# Route pour la confirmation de paiement Stripe (succès)
+app_stripe_success:
+    path: /success
+    controller: App\Controller\CartController::success
+
+# Routes pour la vérification d'email
 app_verify_email_notice:
     path: /verify/email/notice
     controller: App\Controller\RegisterController::emailNotice
@@ -24,6 +48,7 @@ verify_email:
     path: /verify/email
     controller: App\Controller\RegisterController::verifyUserEmail
 
+# Route pour renvoyer la vérification d'email
 app_resend_verification:
     path: /resend-verification
     controller: App\Controller\ResendVerificationController::resendVerification
