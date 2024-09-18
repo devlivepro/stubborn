@@ -5,8 +5,10 @@ namespace App\Entity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -31,6 +33,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false; // Par défaut, l'utilisateur n'est pas vérifié après inscription.
+
+    // Ajout de la colonne createdAt pour stocker la date de création
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $createdAt;
+
+    public function __construct()
+    {
+        // Initialisation de createdAt lors de l'instanciation de l'objet
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 
     public function getId(): ?int
     {
