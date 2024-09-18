@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'adresse de livraison{% endblock %}
+
+{% block body %}
+    <h1>Modifier mon adresse de livraison</h1>
+
+    <div class="account-modify-address">
+    {{ form_start(form) }}
+        {{ form_row(form.deliveryAddress) }}
+
+        <button type="submit" class="btn btn-primary">Modifier l'adresse</button>
+    {{ form_end(form) }}
+    </div>
+
+    <div class="back-home">
+        <a href="{{ path('app_account') }}" class="btn btn-secondary">Retour à mon compte</a>
+    </div>
+{% endblock %}

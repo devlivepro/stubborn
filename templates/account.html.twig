@@ -1,0 +1,14 @@
+{# templates/account/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur votre compte, {{ user.username }} !</h1>
+
+    <div class="account-details">
+        <p>Email : {{ user.email }}</p>
+        <p>Date de création du compte : {{ user.createdAt|date('d/m/Y') }}</p>
+        <p>Adresse de livraison: {{ user.deliveryAddress }} <a href="{{ path('app_modify_delivery_address') }}" class="btn btn-link">Modifier</a></p>        
+    </div>
+{% endblock %}

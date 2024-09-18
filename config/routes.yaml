@@ -52,3 +52,7 @@ verify_email:
 app_resend_verification:
     path: /resend-verification
     controller: App\Controller\ResendVerificationController::resendVerification
+
+app_account:
+    path: /account
+    controller: App\Controller\AccountController::index
