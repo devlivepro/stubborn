@@ -22,7 +22,7 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('app_login'); // Redirige vers la page de connexion s'il n'est pas connecté
         }
 
-        return $this->render('account.html.twig', [
+        return $this->render('account/account.html.twig', [
             'user' => $user,
         ]);
     }
