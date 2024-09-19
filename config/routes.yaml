@@ -56,3 +56,7 @@ app_resend_verification:
 app_account:
     path: /account
     controller: App\Controller\AccountController::index
+
+app_admin:
+    path: /admin
+    controller: App\Controller\AdminController::index
