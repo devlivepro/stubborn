@@ -38,6 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
+    // Nouveau champ is_admin
+    #[ORM\Column(type: 'boolean', options: ["default" => false])]
+    private $isAdmin = false;
+
     public function __construct()
     {
         // Initialisation de createdAt lors de l'instanciation de l'objet
@@ -90,6 +94,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+
+        // Ajouter le rôle administrateur si isAdmin est à true
+        if ($this->isAdmin) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
         $roles[] = 'ROLE_USER'; // ROLE_USER est ajouté par défaut.
 
         return array_unique($roles);
@@ -143,6 +153,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+        return $this;
+    }
+
+    // Getter et setter pour isAdmin
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
         return $this;
     }
 }

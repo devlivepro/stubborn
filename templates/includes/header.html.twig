@@ -14,6 +14,9 @@
                 <a href="{{ path('app_products') }}">Produits</a>
                 <a href="{{ path('app_cart') }}">Panier</a>
                 <a href="{{ path('app_account') }}">Mon compte</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_admin') }}">Admin</a>
+            {% endif %}
                 <a href="{{ path('app_logout') }}">Se déconnecter</a>
             {% else %}
                 <a href="{{ path('app_register') }}">S'inscrire</a>
