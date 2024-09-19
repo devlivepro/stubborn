@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le produit{% endblock %}
+
+{% block body %}
+    <h1>Modifier le produit : {{ product.name }}</h1>
+
+    <div class="current-product-image">
+        {% if product.image %}
+            <img src="{{ asset(product.image) }}" alt="{{ product.name }}" style="max-width: 200px; max-height: 200px;">
+        {% endif %}
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="back-home">
+        <a class="btn btn-secondary" href="{{ path('app_admin') }}">Retour à l'administration</a>
+    </div>
+{% endblock %}

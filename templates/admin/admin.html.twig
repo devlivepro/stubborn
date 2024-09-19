@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'administration{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur la page d'administration, {{ user.username }}</h1>
+
+    <h2 class="title-admin">Ajouter et gérer les produits</h2>
+    
+    {{ form_start(form) }} {# Le formulaire commence ici, avant tout le tableau #}
+    
+    <table class="table-product-admin">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Stock XS</th>
+                <th>Stock S</th>
+                <th>Stock M</th>
+                <th>Stock L</th>
+                <th>Stock XL</th>
+                <th>Mettre en avant</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Formulaire d'ajout de produit #}
+            <tr class="add-product-row">
+                <td>{{ form_row(form.image, {'label': false}) }}</td>
+                <td>{{ form_row(form.name, {'label': false}) }}</td>
+                <td>{{ form_row(form.price, {'label': false}) }}</td>
+                <td>{{ form_row(form.stock_0, {'label': false}) }}</td>
+                <td>{{ form_row(form.stock_1, {'label': false}) }}</td>
+                <td>{{ form_row(form.stock_2, {'label': false}) }}</td>
+                <td>{{ form_row(form.stock_3, {'label': false}) }}</td>
+                <td>{{ form_row(form.stock_4, {'label': false}) }}</td>
+                <td>{{ form_row(form.highlighted, {'label': false}) }}</td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </td>
+            </tr>
+
+            {# Liste des produits existants #}
+            {% for product in products %}
+                <tr>
+                    <td>
+                        {% if product.image %}
+                            <a href="{{ path('app_product_show', {id: product.id}) }}" target="_blank">
+                                <img src="{{ asset(product.image) }}" alt="{{ product.name }}" style="width: 50px; height: auto;">
+                            </a>
+                        {% else %}
+                            Pas d'image
+                        {% endif %}
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }} €</td>
+                    <td>{{ product.stock[0] }}</td>
+                    <td>{{ product.stock[1] }}</td>
+                    <td>{{ product.stock[2] }}</td>
+                    <td>{{ product.stock[3] }}</td>
+                    <td>{{ product.stock[4] }}</td>
+                    <td>{{ product.highlighted ? 'Oui' : 'Non' }}</td>
+                    <td>
+                        <a href="{{ path('app_admin_product_delete', {id: product.id}) }}" class="btn-delete-admin"
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                        <a href="{{ path('app_admin_product_edit', {id: product.id}) }}" class="btn-edit-admin">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ form_end(form) }} {# Le formulaire se termine ici, après le tableau #}
+
+    <div class="back-home">
+        <a class="btn btn-secondary" href="{{ path('app_home') }}">Retour à l'accueil</a>
+    </div>
+{% endblock %}
