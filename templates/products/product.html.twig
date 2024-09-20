@@ -12,19 +12,19 @@
             <div class="product-details-wrapper">
                 <p class="product-title">Nom : {{ product.name }}</p>
                 <p class="product-price">Prix : {{ product.price }} €</p>
-                <p class="product-stock">Quantité restante : {{ product.quantity }}</p>
+                <p class="product-stock">Quantité totale : {{ product.quantity }}</p>
                 
                 <form method="post" action="{{ path('app_cart_add', {'id': product.id}) }}" class="product-form">
                     <label for="size" class="product-size-label">Taille</label>
-                    <select id="size" name="size" class="product-size-select">
-                        <option value="XS">XS</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
+                    <select id="size" name="size" class="product-size-select" onchange="checkStock()">
+                        <option value="XS" data-stock="{{ product.stock[0] }}" {% if product.stock[0] == 0 %}disabled{% endif %}>XS ({{ product.stock[0] }} en stock)</option>
+                        <option value="S" data-stock="{{ product.stock[1] }}" {% if product.stock[1] == 0 %}disabled{% endif %}>S ({{ product.stock[1] }} en stock)</option>
+                        <option value="M" data-stock="{{ product.stock[2] }}" {% if product.stock[2] == 0 %}disabled{% endif %}>M ({{ product.stock[2] }} en stock)</option>
+                        <option value="L" data-stock="{{ product.stock[3] }}" {% if product.stock[3] == 0 %}disabled{% endif %}>L ({{ product.stock[3] }} en stock)</option>
+                        <option value="XL" data-stock="{{ product.stock[4] }}" {% if product.stock[4] == 0 %}disabled{% endif %}>XL ({{ product.stock[4] }} en stock)</option>
                     </select>
 
-                    <button type="submit" class="btn-add-to-cart">Ajouter au panier</button>
+                    <button type="submit" id="btn-add-to-cart" class="btn-add-to-cart" {% if product.quantity == 0 %}disabled{% endif %}>Ajouter au panier</button>
                 </form>
             </div>
         </div>
@@ -33,4 +33,5 @@
             <a href="{{ path('app_products') }}" class="btn-back-products">Retour à la liste des produits</a>
         </div>
     </div>
+
 {% endblock %}

@@ -4,11 +4,45 @@
 {% block title %}Mon Compte{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue sur votre compte, {{ user.username }} !</h1>
+    <h1 class="account-title">Bienvenue sur votre compte, {{ user.username }} !</h1>
 
     <div class="account-details">
         <p>Email : {{ user.email }}</p>
         <p>Date de création du compte : {{ user.createdAt|date('d/m/Y') }}</p>
-        <p>Adresse de livraison: {{ user.deliveryAddress }} <a href="{{ path('app_modify_delivery_address') }}" class="btn btn-link">Modifier</a></p>        
+        <p>Adresse de livraison: {{ user.deliveryAddress }} 
+            <a href="{{ path('app_modify_delivery_address') }}" class="btn btn-link">Modifier</a>
+        </p>        
     </div>
+
+    <!-- Section Historique des Commandes -->
+    <h2 class="orders-title">Historique de vos commandes</h2>
+
+    {% if carts is empty %}
+        <p class="no-orders">Vous n'avez pas encore passé de commande.</p>
+    {% else %}
+        <div class="orders-history">
+            {% for cart in carts %}
+                <div class="order-item">
+                    <h3 class="order-title">Commande n° {{ cart.id }} - {{ cart.createdAt|date('d/m/Y') }}</h3>
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Prix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in cart.products %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.price }} €</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
 {% endblock %}

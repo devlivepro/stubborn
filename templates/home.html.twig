@@ -12,20 +12,26 @@
                 <div class="product-card-high">
                     <img src="{{ asset(product.image) }}" alt="{{ product.name }}">
                     <h2>{{ product.name }}</h2>
-                    <p>{{ product.price }} €</p>
-
+                    
+                    
+                    <div class="product-action">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn-see-product">Voir</a>
                     {% endif %}
+                    </div>
+                    
+                    <p>{{ product.price }} €</p>
                 </div>
             {% endfor %}
         </div>
     </section>
 
     <section class="company-presentation">
-        <h2>À propos de Stubborn</h2>
+        <h2>Informations de la société</h2>
         <p>Bienvenue chez Stubborn, votre destination de choix pour des produits de qualité. Nous nous engageons à fournir des articles innovants et à offrir une expérience d'achat unique à tous nos clients. Que vous recherchiez les dernières tendances ou des produits du quotidien, Stubborn est là pour répondre à vos besoins.</p>
         <p>Notre mission est de créer une communauté autour de nos produits, en plaçant la satisfaction de nos clients au cœur de notre activité.</p>
     </section>
 
+    {# JS #}
+    <script src="{{ asset('js/product.js') }}"></script>
 {% endblock %}
