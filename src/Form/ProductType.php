@@ -29,7 +29,7 @@ class ProductType extends AbstractType
             ->add('stock_0', NumberType::class, [
                 'label' => false,
                 'attr' => ['class' => 'form-control'],
-                'mapped' => false, // Non mappé directement à l'entité, on va le gérer manuellement
+                'mapped' => false,
             ])
             ->add('stock_1', NumberType::class, [
                 'label' => false,

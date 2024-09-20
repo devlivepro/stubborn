@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,21 +27,28 @@ class CartController extends AbstractController
             throw $this->createNotFoundException('Le produit n\'existe pas.');
         }
 
-        // Vérifier si le stock est suffisant
-        if ($product->getQuantity() < 1) {
-            $this->addFlash('error', 'Le produit est en rupture de stock.');
+        // Récupérer la taille sélectionnée dans le formulaire
+        $size = $request->request->get('size');
+        if (!$size) {
+            $this->addFlash('error', 'Veuillez sélectionner une taille.');
             return $this->redirectToRoute('app_cart');
         }
 
-        // Récupérer la taille sélectionnée dans le formulaire
-        $size = $request->request->get('size', 'M'); // Taille par défaut: M
+        // Vérifier la disponibilité du stock pour la taille sélectionnée
+        $stock = $product->getStock(); // Stock est un tableau [XS, S, M, L, XL]
+        $sizeIndex = $this->getSizeIndex($size);
 
-        // Initialiser correctement chaque élément du panier (produit + quantité + taille)
+        if ($sizeIndex === null || $stock[$sizeIndex] < 1) {
+            $this->addFlash('error', 'Le produit est en rupture de stock pour cette taille.');
+            return $this->redirectToRoute('app_cart');
+        }
+
+        // Ajouter ou mettre à jour le produit dans le panier
         if (!isset($cart[$id])) {
             $cart[$id] = [
-                'product' => $product->getId(), // Stocker l'identifiant du produit
-                'quantity' => 0,                // Initialiser la quantité
-                'size' => $size,                // Stocker la taille sélectionnée
+                'product' => $product->getId(), // Stocker l'ID du produit
+                'quantity' => 0,
+                'size' => $size,
             ];
         }
 
@@ -78,12 +87,11 @@ class CartController extends AbstractController
         foreach ($cart as $id => $item) {
             $product = $productRepository->find($id);
 
-            // Assurer la structure correcte et gérer les erreurs possibles
             if ($product) {
                 $cartWithData[] = [
                     'product' => $product,
-                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 1, // Accéder à la quantité ou définir à 1 par défaut
-                    'size' => isset($item['size']) ? $item['size'] : 'M',           // Afficher la taille sélectionnée
+                    'quantity' => $item['quantity'],
+                    'size' => $item['size'],
                 ];
             }
         }
@@ -99,12 +107,14 @@ class CartController extends AbstractController
         $cart = $request->getSession()->get('cart', []);
         $lineItems = [];
 
-        // Préparer les articles pour la session de paiement Stripe
         foreach ($cart as $id => $item) {
             $product = $productRepository->find($id);
             if ($product) {
-                // Vérifier à nouveau la quantité en stock avant la validation
-                if ($product->getQuantity() < $item['quantity']) {
+                // Vérifier à nouveau la quantité disponible avant la validation
+                $stock = $product->getStock();
+                $sizeIndex = $this->getSizeIndex($item['size']);
+
+                if ($sizeIndex === null || $stock[$sizeIndex] < $item['quantity']) {
                     $this->addFlash('error', 'Stock insuffisant pour ' . $product->getName());
                     return $this->redirectToRoute('app_cart');
                 }
@@ -113,22 +123,20 @@ class CartController extends AbstractController
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => $product->getName() . ' (' . $item['size'] . ')', // Inclure la taille dans le nom du produit
+                            'name' => $product->getName() . ' (' . $item['size'] . ')',
                         ],
-                        'unit_amount' => $product->getPrice() * 100, // Prix en centimes
+                        'unit_amount' => $product->getPrice() * 100,
                     ],
-                    'quantity' => $item['quantity'], // Utiliser la quantité ici
+                    'quantity' => $item['quantity'],
                 ];
             }
         }
 
-        // Initialiser Stripe avec la clé secrète
         Stripe::setApiKey($this->getParameter('STRIPE_SECRET_KEY'));
 
-        // Créer une session de paiement
         $checkoutSession = Session::create([
             'payment_method_types' => ['card'],
-            'line_items' => $lineItems, // Utilisation directe de $lineItems
+            'line_items' => $lineItems,
             'mode' => 'payment',
             'success_url' => $this->generateUrl('app_stripe_success', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('app_cart', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
@@ -140,25 +148,69 @@ class CartController extends AbstractController
     #[Route('/success', name: 'app_stripe_success')]
     public function success(Request $request, ProductRepository $productRepository, EntityManagerInterface $em): Response
     {
-        $cart = $request->getSession()->get('cart', []);
+        $cartSession = $request->getSession()->get('cart', []);
 
-        // Mettre à jour les quantités en stock après le paiement
-        foreach ($cart as $id => $item) {
+        if (empty($cartSession)) {
+            $this->addFlash('error', 'Votre panier est vide.');
+            return $this->redirectToRoute('app_cart');
+        }
+
+        // Créer un nouvel objet Cart pour cet utilisateur
+        $user = $this->getUser();
+        $cart = new Cart();
+        $cart->setUser($user);
+        $cart->setCreatedAt(new \DateTime());
+
+        // Parcourir les éléments du panier et mettre à jour le stock
+        foreach ($cartSession as $id => $item) {
             $product = $productRepository->find($id);
-            if ($product) {
-                // Décrémenter la quantité disponible dans le stock
-                $newStock = $product->getQuantity() - $item['quantity'];
-                $product->setQuantity($newStock);
 
-                $em->persist($product);
+            if ($product) {
+                // Récupérer et décrémenter le stock pour la taille sélectionnée
+                $stock = $product->getStock();
+                $sizeIndex = $this->getSizeIndex($item['size']);
+
+                if ($sizeIndex !== null && $stock[$sizeIndex] >= $item['quantity']) {
+                    // Décrémenter le stock
+                    $stock[$sizeIndex] -= $item['quantity'];
+                    $product->setStock($stock);
+
+                    // Mettre à jour la quantité totale du produit
+                    $totalQuantity = array_sum($stock);
+                    $product->setQuantity($totalQuantity);
+
+                    // Ajouter le produit à l'objet Cart
+                    $cart->addProduct($product);
+
+                    // Persist les changements du produit
+                    $em->persist($product);
+                }
             }
         }
 
-        $em->flush(); // Sauvegarder les changements en base de données
+        // Persist le Cart dans la base de données
+        $em->persist($cart);
+        $em->flush();
 
-        // Vider le panier après le paiement réussi
+        // Vider le panier après un paiement réussi
         $request->getSession()->remove('cart');
 
         return $this->render('stripe/success.html.twig');
+    }
+
+    /**
+     * Méthode utilitaire pour obtenir l'index de la taille dans le tableau de stock
+     */
+    private function getSizeIndex(string $size): ?int
+    {
+        $sizeMap = [
+            'XS' => 0,
+            'S' => 1,
+            'M' => 2,
+            'L' => 3,
+            'XL' => 4
+        ];
+
+        return $sizeMap[strtoupper($size)] ?? null;
     }
 }
