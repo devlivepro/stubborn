@@ -8,11 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ModifyDeliveryAddressType;
+use App\Repository\CartRepository; // Importer le repository Cart
 
 class AccountController extends AbstractController
 {
     #[Route('/account', name: 'app_account')]
-    public function index(): Response
+    public function index(CartRepository $cartRepository): Response
     {
         // Récupérer les informations de l'utilisateur connecté
         $user = $this->getUser();
@@ -22,8 +23,12 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('app_login'); // Redirige vers la page de connexion s'il n'est pas connecté
         }
 
+        // Récupérer les commandes (Carts) de l'utilisateur connecté
+        $carts = $cartRepository->findBy(['user' => $user], ['createdAt' => 'DESC']); // Trier par date
+
         return $this->render('account/account.html.twig', [
             'user' => $user,
+            'carts' => $carts, // Passer les commandes à la vue
         ]);
     }
 
