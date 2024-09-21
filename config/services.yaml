@@ -6,7 +6,6 @@
 parameters:
         STRIPE_SECRET_KEY: '%env(STRIPE_SECRET_KEY)%'
         images_directory: '%kernel.project_dir%/assets/img'
-
 services:
     # default configuration for services in *this* file
     _defaults:
