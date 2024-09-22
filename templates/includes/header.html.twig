@@ -1,22 +1,26 @@
-{# templates/includes/header.html.twig #}
 <header>
     <div class="header-container">
+        <!-- Logo -->
         <div class="logo">
             <a href="{{ path('app_home') }}">
-                <img src="{{ asset('img/Logo.png') }}" alt="Logo de Stubborn" class="logo-img">
+                <img src="{{ asset('img/Logo.avif') }}" alt="Logo de Stubborn" class="logo-img">
             </a>
             <p>La mode avec caractère</p>
         </div>
 
-        <nav>
+        <!-- Burger icon for mobile -->
+        <div class="menu-mobile" id="menu-mobile"></div>
+
+        <!-- Navigation menu (will be shown on mobile and desktop) -->
+        <nav id="main-nav">
             <a href="{{ path('app_home') }}">Accueil</a>
             {% if app.user %}
                 <a href="{{ path('app_products') }}">Produits</a>
                 <a href="{{ path('app_cart') }}">Panier</a>
                 <a href="{{ path('app_account') }}">Mon compte</a>
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('app_admin') }}">Admin</a>
-            {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin') }}">Admin</a>
+                {% endif %}
                 <a href="{{ path('app_logout') }}">Se déconnecter</a>
             {% else %}
                 <a href="{{ path('app_register') }}">S'inscrire</a>
