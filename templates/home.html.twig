@@ -5,7 +5,7 @@
 {% block body %}
 
     <section class="highlighted-products">
-        <h1>Les favoris de nos clients</h1>
+        <h1>Les incontournables de nos clients</h1>
 
         <div class="product-grid-high">
             {% for product in highlightedProducts %}
@@ -32,6 +32,4 @@
         <p>Notre mission est de créer une communauté autour de nos produits, en plaçant la satisfaction de nos clients au cœur de notre activité.</p>
     </section>
 
-    {# JS #}
-    <script src="{{ asset('js/product.js') }}"></script>
 {% endblock %}
