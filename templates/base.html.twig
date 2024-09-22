@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <title>{% block title %}Stubborn e-commerce{% endblock %}</title>
+    <meta name="description" content="La boutique en ligne dédiée à la mode avec caractère">
+    <title>{% block title %}Stubborn{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="{{ asset('css/mobile.css') }}">
+
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 </head>
 <body>
@@ -21,6 +21,7 @@
 
     {% include 'includes/footer.html.twig' %}
 
-    <script src="{{ asset('js/passwordHidden.js') }}"></script>
+
+    {{ encore_entry_script_tags('app') }} {# Inclusion du fichier app.js compilé #}
 </body>
 </html>

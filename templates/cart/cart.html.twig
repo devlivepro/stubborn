@@ -24,14 +24,14 @@
                     <tr>
                         <td>
                             <a href="{{ path('app_product_show', {id: item.product.id}) }}">
-                                <img src="{{ asset(item.product.image) }}" alt="{{ item.product.name }}" style="max-width: 100px;">
+                                <img src="{{ asset(item.product.image) }}" alt="{{ item.product.name }}">
                             </a>
                         </td>
-                        <td>{{ item.product.name }}</td>
-                        <td>{{ item.product.price }} €</td>
-                        <td>{{ item.size }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price * item.quantity }} €</td>
+                        <td><div class="mobile-name">Nom :</div> {{ item.product.name }}</td>
+                        <td><div class="mobile-price">Prix :</div> {{ item.product.price }} €</td>
+                        <td><div class="mobile-size">Taille :</div> {{ item.size }}</td>
+                        <td><div class="mobile-quantity">Quantité :</div> {{ item.quantity }}</td>
+                        <td><div class="mobile-total">Total :</div> {{ item.product.price * item.quantity }} €</td>
                         <td>
                             <a href="{{ path('app_cart_remove', {id: item.product.id}) }}" class="btn btn-danger">Supprimer</a>
                         </td>
