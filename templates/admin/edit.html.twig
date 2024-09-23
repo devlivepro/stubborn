@@ -1,22 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier le produit{% endblock %}
+{% block title %}Modifier le produit
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier le produit : {{ product.name }}</h1>
+	<h1>Modifier le produit :
+		{{ product.name }}</h1>
 
-    <div class="current-product-image">
-        {% if product.image %}
-            <img src="{{ asset(product.image) }}" alt="{{ product.name }}" style="max-width: 200px; max-height: 200px;">
-        {% endif %}
+	<div class="current-product-image">
+		{% if product.image %}
+			<img src="{{ asset(product.image) }}" alt="{{ product.name }}">
+		{% endif %}
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Modifier</button>
-        {{ form_end(form) }}
-    </div>
+		{{ form_start(form) }}
 
-    <div class="back-home">
-        <a class="btn btn-secondary" href="{{ path('app_admin') }}">Retour à l'administration</a>
-    </div>
-{% endblock %}
+		{{ form_row(form.image, {'label': false}) }}</td>
+	<div class="mobile-name">Nom :</div>
+	{{ form_row(form.name, {'label': false}) }}
+	<div class="mobile-price">Prix :</div>
+	{{ form_row(form.price, {'label': false}) }}
+	<div class="mobile-size">Stock XS :</div>
+	{{ form_row(form.stock_0, {'label': false}) }}
+	<div class="mobile-size">Stock S :</div>
+	{{ form_row(form.stock_1, {'label': false}) }}
+	<div class="mobile-size">Stock M :</div>
+	{{ form_row(form.stock_2, {'label': false}) }}
+	<div class="mobile-size">Stock L :</div>
+	{{ form_row(form.stock_3, {'label': false}) }}
+	<div class="mobile-size">Stock XL :</div>
+	{{ form_row(form.stock_4, {'label': false}) }}
+	<div class="mobile-highlighted">Mettre en avant :</div>
+	{{ form_row(form.highlighted, {'label': false}) }}
+
+	<button type="submit" class="btn btn-primary">Modifier</button>
+	{{ form_end(form) }}
+</div>
+
+<div class="back-home">
+	<a class="btn btn-secondary" href="{{ path('app_admin') }}">Retour à l'administration</a>
+</div>{% endblock %}
