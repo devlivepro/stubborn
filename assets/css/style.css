@@ -13,6 +13,10 @@ html, body {
     padding: 0;
 }
 
+div {
+    margin-bottom: 10px;
+}
+
 h1 {
     text-align: center;
     font-size: 24px;
@@ -59,7 +63,10 @@ p {
 }
 
 .logo-img {
-    max-height: 60px;
+    height: 100px;
+    width: 135px;
+    max-height: 100px;
+    width: 135px;
 }
 
 .logo p {
@@ -71,7 +78,7 @@ p {
 
 header {
     background-color: #fff;
-    padding: 20px 0;
+    padding: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -95,18 +102,32 @@ header nav {
     align-items: center;
 }
 
-header nav a {
+header {
     margin-left: 20px;
-    color: #000;
+    color: #333;
+    font-size: 16px;
+}
+
+nav a {
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: normal;
+    color: #333;
+    margin-left: 20px;
+}
+
+nav a.active {
     font-weight: bold;
+    text-decoration: underline;
+    color: #333;
 }
 
 header nav a:hover {
-    color: #007bff;
+    color: #333;
 }
 
 header nav a.active {
-    color: #007bff;
+    color: #333;
 }
 
 /* Section principale */
@@ -223,10 +244,9 @@ main {
 form {
     display: flex;
     flex-direction: column;
-    width: 260px;
-    max-width: 260px;
+    width: auto;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #fff;
     text-align: left;
 }
@@ -302,43 +322,50 @@ input[type="email"]:focus {
 }
 
 .product-grid-high {
-    display: flex;
-    justify-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding: 20px;  
+    max-width: 1200px;
+    margin: 0 auto; 
 }
 
 .product-card-high {
     background-color: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-height: 380px;
+    max-width: 300px;
+    margin: 0 auto;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .product-card-high img {
     max-width: 100%;
-    height: auto;
-    border-radius: 5px;
+    height: 250px;
+    object-fit: cover;
     margin-bottom: 15px;
+    border-radius: 8px;
 }
 
 .product-card-high h2 {
     font-size: 18px;
-    margin: 10px 0;
-    color: #333;
-    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .product-card-high p {
-    font-size: 16px;
+    font-size: 14px;
     color: #666;
-    margin-bottom: 10px;
+    margin: 0;
+    text-align: left;
+}
+
+.product-card-high .product-action {
+    margin-top: auto;
 }
 
 .product-card-high:hover {
@@ -352,16 +379,14 @@ input[type="email"]:focus {
 }
 
 .btn-see-product {
+    display: inline-block;
     padding: 12px 20px;
     font-size: 16px;
     color: #fff;
     background-color: #007bff;
-    border: none;
+    text-decoration: none;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-align: center;
-    display: inline-block;
+    transition: background-color 0.3s ease;
 }
 
 .btn-see-product:hover {
@@ -371,9 +396,10 @@ input[type="email"]:focus {
 }
 
 .product-action {
+    margin-top: auto;
     display: flex;
-    justify-content: flex-end; /* Pousse le bouton "Voir" à droite */
-    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 /* Mise en page générale */
@@ -561,21 +587,15 @@ input[type="email"]:focus {
 }
 
 .product-form {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
+    padding: 0;
 }
 
 .product-form label {
     font-weight: bold;
     margin-bottom: 10px;
-}
-
-.product-size-select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
 }
 
 /* Bouton Ajouter au panier */
@@ -606,11 +626,77 @@ input[type="email"]:focus {
     text-align: center;
 }
 
+.btn-danger {
+    background-color: #dc3545; /* Couleur rouge pour signaler le danger */
+    color: #fff; /* Texte blanc */
+    border: 1px solid #dc3545; /* Bordure de la même couleur que le fond */
+    padding: 10px 20px; /* Espace intérieur */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur en forme de main pour indiquer que c'est cliquable */
+    border-radius: 5px; /* Légèrement arrondi */
+    transition: background-color 0.3s ease; /* Animation pour un effet fluide */
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333; /* Couleur un peu plus sombre au survol */
+    border-color: #bd2130; /* Adapter la bordure au survol */
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .btn-danger:active {
+    background-color: #a71d2a; /* Couleur encore plus sombre au clic */
+    border-color: #a71d2a;
+  }
+  
+  .btn-danger:disabled {
+    background-color: #e4606d; /* Couleur plus terne si désactivé */
+    border-color: #e4606d;
+    cursor: not-allowed; /* Indicateur que le bouton est désactivé */
+    opacity: 0.65; /* Rendre le bouton désactivé un peu transparent */
+  }
+
+  .btn-success {
+    background-color: #28a745; /* Couleur verte pour signaler le succès */
+    color: #fff; /* Texte blanc */
+    border: 1px solid #28a745; /* Bordure de la même couleur que le fond */
+    padding: 10px 20px; /* Espace intérieur */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur en forme de main pour indiquer que c'est cliquable */
+    border-radius: 5px; /* Légèrement arrondi */
+    transition: background-color 0.3s ease; /* Animation pour un effet fluide */
+  }
+  
+  .btn-success:hover {
+    background-color: #218838; /* Couleur un peu plus sombre au survol */
+    color: #fff;
+    border-color: #1e7e34; /* Adapter la bordure au survol */
+    text-decoration: none;
+  }
+  
+  .btn-success:active {
+    background-color: #1c7430; /* Couleur encore plus sombre au clic */
+    border-color: #1c7430;
+  }
+  
+  .btn-success:disabled {
+    background-color: #71d88b; /* Couleur plus terne si désactivé */
+    border-color: #71d88b;
+    cursor: not-allowed; /* Indicateur que le bouton est désactivé */
+    opacity: 0.65; /* Rendre le bouton désactivé un peu transparent */
+  }
+  
+  
 /* Table du panier */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 table thead {
@@ -635,7 +721,7 @@ table td {
 
 /* Image des produits dans le panier */
 table td img {
-    max-width: 100px;
+    width: 100px;
     border-radius: 5px;
 }
 
@@ -671,7 +757,6 @@ table td img {
     font-size: 16px;
     color: #333;
     border: 1px solid gray;
-    cursor: pointer;
     transition: background-color 0.3s;
     text-align: center;
     display: inline-block;
@@ -689,7 +774,7 @@ table td img {
 
 .continue-shopping .btn-primary {
     width: auto;
-    padding: 12px 20px;
+    padding: 12px 28px;
     font-size: 16px;
 }
 
@@ -744,6 +829,8 @@ table td img {
 
 .cart-actions .btn-success:hover {
     background-color: #218838;
+    color: #fff;
+    text-decoration: none;
 }
 
 .cart-actions a {
@@ -855,9 +942,12 @@ table td img {
 }
 
 .product-size-select {
-    width: 100px;
+    width: 100%;
     padding: 8px;
     margin-bottom: 20px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 .btn-add-to-cart {
@@ -891,6 +981,8 @@ table td img {
 
 .btn-back-products:hover {
     background-color: #5a6268;
+    color: #fff;
+    text-decoration: none;
 }
 
 section.highlighted-products {
@@ -898,10 +990,13 @@ section.highlighted-products {
     flex-direction: column;
     align-items: center;
     margin-bottom: 40px;
+    text-align: center;
 }
 
 section.highlighted-products h2 {
-    margin-bottom: 20px;
+    font-size: 16px;
+    margin: 0;
+    text-align: left;
 }
 
 .separator {
@@ -912,7 +1007,7 @@ section.highlighted-products h2 {
 }
 
 footer {
-    background-color: #fff;
+    background-color: #F8F9FA;
     padding: 0;
     text-align: center;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -975,7 +1070,7 @@ footer {
     background-color: #f8f8f8;
     padding: 40px 20px;
     margin-top: 40px;
-    text-align: center;
+    text-align: left;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 90%;
@@ -1060,11 +1155,12 @@ footer {
 }
 
 .account-details p {
-    font-size: 1.2rem;
-    color: #555;
+    font-size: 15px;
+    color: #333;
     margin-bottom: 15px;
     text-align: center;
     line-height: 1.5;
+    font-weight: normal;
 }
 
 .account-details .address-info {
@@ -1097,8 +1193,10 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f9f9f9;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .account-modify-address .form-container {
@@ -1205,11 +1303,6 @@ footer {
     margin: 0 auto; /* Centrer le conteneur */
 }
 
-form {
-    width: 100%;
-    max-width: 100%;
-}
-
 .table-product-admin {
     width: 100%;
     border-collapse: collapse;
@@ -1295,7 +1388,11 @@ form {
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
-    width: 40%;
+    width: 20%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .current-product-image img {
@@ -1310,4 +1407,73 @@ form {
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+.account-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.account-details {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.orders-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+.orders-history {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.order-item {
+    margin-bottom: 2rem;
+}
+.order-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.order-table th, .order-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.order-table th {
+    background-color: #f1f1f1;
+}
+.no-orders {
+    color: #888;
+    text-align: center;
+}
+/* Cacher le menu mobile par défaut */
+#mobile-nav {
+    display: none;
+}
+
+/* Cacher le bouton burger sur les grands écrans (desktop et tablette) */
+.menu-mobile {
+    display: none;
+}
+
+.mobile-image,
+.mobile-name,
+.mobile-price,
+.mobile-size,
+.mobile-quantity,
+.mobile-highlighted,
+.mobile-total {
+    display: none;
 }

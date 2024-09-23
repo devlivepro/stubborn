@@ -15,7 +15,7 @@
                 <p class="product-stock">Quantité totale : {{ product.quantity }}</p>
                 
                 <form method="post" action="{{ path('app_cart_add', {'id': product.id}) }}" class="product-form">
-                    <label for="size" class="product-size-label">Taille</label>
+                    <label for="size" class="product-size-label">Taille :</label>
                     <select id="size" name="size" class="product-size-select" onchange="checkStock()">
                         <option value="XS" data-stock="{{ product.stock[0] }}" {% if product.stock[0] == 0 %}disabled{% endif %}>XS ({{ product.stock[0] }} en stock)</option>
                         <option value="S" data-stock="{{ product.stock[1] }}" {% if product.stock[1] == 0 %}disabled{% endif %}>S ({{ product.stock[1] }} en stock)</option>
