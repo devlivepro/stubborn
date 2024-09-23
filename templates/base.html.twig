@@ -5,16 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="La boutique en ligne dédiée à la mode avec caractère">
-    
-    {% block meta %}
-        {% if app.request.get('_route') == 'app_index' %}
-            <meta name="robots" content="noindex">
-        {% endif %}
-    {% endblock %}
-
     <title>{% block title %}Stubborn{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/mobile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tablet.css') }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 </head>
