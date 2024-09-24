@@ -20,8 +20,22 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+
+    // Fichiers JavaScript
     .addEntry('app', './assets/js/app.js')
-    .addEntry('menu-mobile', './assets/js/menu-mobile.js')
+
+    // Fichiers CSS
+    .addStyleEntry('styles', './assets/css/app.css')
+
+    // Permet la gestion des images
+    .copyFiles({
+        from: './assets/img',
+        to: 'img/[path][name].[hash:8].[ext]',
+        pattern: /\.(png|jpg|jpeg|avif|svg|ico)$/ // Ajouter avif dans les formats pris en charge
+    })
+
+    // Active la version de production
+    .enableVersioning(Encore.isProduction())
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
