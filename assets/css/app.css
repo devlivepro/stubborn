@@ -1,0 +1,4 @@
+/* Importer tous les fichiers CSS */
+@import './style.css';
+@import './mobile.css';
+@import './tablet.css';
