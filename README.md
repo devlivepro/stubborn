@@ -19,10 +19,10 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 
 Commencez par cloner le dépôt Git dans votre répertoire local :
 
-``bash
+```bash
 git clone https://github.com/devlivepro/Stubborn.git
 
-``bash
+```bash
 cd Stubborn
 
 
