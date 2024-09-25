@@ -32,90 +32,97 @@ cd Stubborn
 
 Utilisez Composer pour installer toutes les dépendances PHP nécessaires au projet :
 
-\```bash
+```bash
 composer install
-\```
+```
 
 ### 3. Configurer les variables d'environnement
 
 Créez un fichier `.env.local` en copiant le fichier `.env`, puis configurez-le avec vos informations de base de données et autres paramètres :
 
-\```bash
+```bash
 cp .env .env.local
-\```
+```
 
 Ensuite, modifiez le fichier `.env.local` avec vos paramètres :
 
-\```bash
+```bash
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name"
-\```
+```
 
 ### 4. Créer la base de données
 
 Créez la base de données avec la commande suivante :
 
-\```bash
+```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
-\```
+```
 
 Si vous avez déjà une base de données existante et souhaitez lancer uniquement les migrations, exécutez :
 
-\```bash
+```bash
 php bin/console doctrine:migrations:migrate
-\```
+```
 
 ### 5. Installer les dépendances JavaScript et compiler les assets
 
 Si vous utilisez **Webpack Encore** pour gérer les assets, installez les dépendances JavaScript avec **npm** et compilez les assets :
 
-\```bash
+```bash
 npm install
 npm run dev
-\```
+```
 
 ### 6. Lancer le serveur de développement
 
 Pour lancer le serveur Symfony en mode développement, utilisez la commande suivante :
 
-\```bash
+```bash
 symfony server:start
-\```
+```
 
 Si vous ne souhaitez pas utiliser le **Symfony CLI**, vous pouvez également lancer le serveur PHP intégré avec :
 
-\```bash
+```bash
 php -S localhost:8000 -t public/
-\```
+```
 
 ### 7. Consommer les messages pour la validation par email
 
 Utilisez cette commande pour démarrer le consommateur de messages (seulement en mode dev) :
 
-\```bash
+```bash
 php bin/console messenger:consume async --time-limit=3600
-\```
+```
 
 ### 8. Compte Utilisateur et Administrateur
 
 #### Compte utilisateur pour la démo (URL : `/login`)
 
-\```bash
+```bash
 Email: johndoe@hotmail.com
 Mot de passe: johndoe1234
-\```
+```
 
 #### Compte administrateur pour la démo (URL : `/admin`)
 
-\```bash
+```bash
 Email: johndoeadmin@hotmail.com
 Mot de passe: johndoe1234
-\```
+```
+
+#### Compte Utilisateur non vérifier pour la démo (URL : `/login`)
+
+```bash
+Email: johndoe0@hotmail.com
+Mot de passe: johndoe1234
+```
 
 ## Tests
 
 Pour lancer les tests (si des tests sont définis dans votre projet) :
 
-\```bash
+```bash
 php bin/phpunit
-\```
+```
