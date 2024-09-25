@@ -31,7 +31,7 @@ Encore
     .copyFiles({
         from: './assets/img',
         to: 'img/[path][name].[hash:8].[ext]',
-        pattern: /\.(png|jpg|jpeg|avif|svg|ico)$/ // Ajouter avif dans les formats pris en charge
+        pattern: /\.(png|jpg|jpeg|avif|svg|ico)$/
     })
 
     // Active la version de production
