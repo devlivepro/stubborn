@@ -21,9 +21,11 @@ Commencez par cloner le dépôt Git dans votre répertoire local :
 
 ```bash
 git clone https://github.com/devlivepro/Stubborn.git
+```
 
 ```bash
 cd Stubborn
+```
 
 
 ### 2. Installer les dépendances PHP
