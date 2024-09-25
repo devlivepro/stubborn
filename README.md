@@ -126,3 +126,16 @@ Pour lancer les tests (si des tests sont définis dans votre projet) :
 ```bash
 php bin/phpunit
 ```
+
+## Paiement
+
+Pour effectuer un paiement en mode test, stripe fournie un numéro de carte test:
+
+Numéro de carte : 
+
+```bash
+4242 4242 4242 4242
+```
+
+Date d'expiration : n'importe quelle date valide (par exemple : 12/34)
+CVC : n'importe quel code à 3 chiffres (par exemple : 123)
