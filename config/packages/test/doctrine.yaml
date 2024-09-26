@@ -1,0 +1,7 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                # On supprime la ligne dbname_suffix pour éviter l'ajout automatique du suffixe "_test"
+                dbname_suffix: null
