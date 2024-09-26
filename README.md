@@ -127,6 +127,28 @@ Pour lancer les tests (si des tests sont définis dans votre projet) :
 php bin/phpunit
 ```
 
+## Migration base de données
+
+Pour lancer la migration :
+
+Création de la db principale :
+php bin/console doctrine:database:create
+
+Charge la structure données db principale :
+php bin/console doctrine:migrations:migrate
+
+Migration des données :
+php bin/console doctrine:fixtures:load --group=ProductDataFixtures --append
+php bin/console doctrine:fixtures:load --group=UserFixtures --append
+
+Création de la db test :
+php bin/console doctrine:database:create --env=test
+
+Migration des données test :
+php bin/console doctrine:migrations:migrate --env=test
+php bin/console doctrine:fixtures:load --group=TestProductDataFixtures --env=test --append
+php bin/console doctrine:fixtures:load --group=TestUserFixtures --env=test --append
+
 ## Paiement
 
 Pour effectuer un paiement en mode test, stripe fournie un numéro de carte test:
