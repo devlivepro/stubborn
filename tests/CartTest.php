@@ -24,8 +24,7 @@ class CartTest extends WebTestCase
         // Connecte l'utilisateur de test
         $client->loginUser($user);
 
-        // Ajouter un produit au panier avec une taille par défaut (assurez-vous que le produit avec l'ID 1 existe via les fixtures)
-        $client->request('POST', '/cart/add/11', [
+        $client->request('POST', '/cart/add/1', [
             'size' => 'M',
         ]);
         $this->assertResponseStatusCodeSame(302); // Vérifie que l'ajout au panier redirige correctement
@@ -37,6 +36,6 @@ class CartTest extends WebTestCase
 
         // Vérifie que le panier est bien initialisé et que le produit y est ajouté
         $this->assertNotNull($cart, "Le panier est vide après l'ajout du produit.");
-        $this->assertArrayHasKey(11, $cart, "Le produit n'est pas présent dans le panier.");
+        $this->assertArrayHasKey(1, $cart, "Le produit n'est pas présent dans le panier.");
     }
 }
