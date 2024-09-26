@@ -23,9 +23,9 @@ class CheckoutTest extends WebTestCase
         // Connecte l'utilisateur de test
         $client->loginUser($user);
 
-        // Ajouter un produit au panier avec une taille (ID du produit = 11)
-        $client->request('POST', '/cart/add/11', [
-            'size' => 'M',  // Assurez-vous que le produit a une taille "M" disponible
+        // Ajouter un produit au panier avec une taille (ID du produit = 1)
+        $client->request('POST', '/cart/add/1', [
+            'size' => 'M',
         ]);
 
         // Vérifie que l'ajout au panier redirige bien
@@ -36,11 +36,11 @@ class CheckoutTest extends WebTestCase
         $session = $client->getRequest()->getSession();
         $cart = $session->get('cart');
         $this->assertNotNull($cart, 'Le panier est vide après l\'ajout du produit.');
-        $this->assertArrayHasKey(11, $cart, 'Le produit avec l\'ID 11 n\'a pas été ajouté au panier.');
+        $this->assertArrayHasKey(1, $cart, 'Le produit avec l\'ID 1 n\'a pas été ajouté au panier.');
 
         // Vérification de la quantité et des détails du produit dans le panier
-        $this->assertEquals(1, $cart[11]['quantity'], 'La quantité du produit ajouté n\'est pas correcte.');
-        $this->assertEquals('M', $cart[11]['size'], 'La taille du produit ajouté n\'est pas correcte.');
+        $this->assertEquals(1, $cart[1]['quantity'], 'La quantité du produit ajouté n\'est pas correcte.');
+        $this->assertEquals('M', $cart[1]['size'], 'La taille du produit ajouté n\'est pas correcte.');
 
         // Simuler la validation du panier en allant vers `/checkout`
         $client->request('GET', '/checkout');
