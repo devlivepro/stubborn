@@ -132,22 +132,48 @@ php bin/phpunit
 Pour lancer la migration :
 
 Création de la db principale :
+
+```bash
 php bin/console doctrine:database:create
+```
 
 Charge la structure données db principale :
+
+```bash
 php bin/console doctrine:migrations:migrate
+```
 
 Migration des données :
+
+```bash
 php bin/console doctrine:fixtures:load --group=ProductDataFixtures --append
+```
+
+```bash
 php bin/console doctrine:fixtures:load --group=UserFixtures --append
+```
 
 Création de la db test :
-php bin/console doctrine:database:create --env=test
 
+```bash
+php bin/console doctrine:database:create --env=test
+```
+
+```bash
 Migration des données test :
+```
+
+```bash
 php bin/console doctrine:migrations:migrate --env=test
+```
+
+```bash
 php bin/console doctrine:fixtures:load --group=TestProductDataFixtures --env=test --append
+```
+
+```bash
 php bin/console doctrine:fixtures:load --group=TestUserFixtures --env=test --append
+```
 
 ## Paiement
 
