@@ -21,7 +21,7 @@ class TestUserFixtures extends Fixture
         // Création utilisateur 1 dans db-test
         $user = new User();
         $user->setEmail('johndoe@example.com');
-        $user->setPassword($this->passwordHasher->hashPassword($user, 'test'));
+        $user->setPassword($this->passwordHasher->hashPassword($user, 'johndoe1234'));
         $user->setRoles(['ROLE_ADMIN']);
         $user->setUsername('johndoetest');
         $user->setDeliveryAddress('8 rue paul roberto 75001 Paris');
