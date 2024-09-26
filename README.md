@@ -50,7 +50,7 @@ Ensuite, modifiez le fichier `.env.local` avec vos paramètres :
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name"
 ```
 
-### 4. Créer la base de données
+### 4. Créer la base de données, commande standard ou plus de détails en fin de page
 
 Créez la base de données avec la commande suivante :
 
