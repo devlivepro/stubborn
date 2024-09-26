@@ -159,9 +159,8 @@ Création de la db test :
 php bin/console doctrine:database:create --env=test
 ```
 
-```bash
 Migration des données test :
-```
+
 
 ```bash
 php bin/console doctrine:migrations:migrate --env=test
